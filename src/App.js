@@ -6,7 +6,7 @@ mock JSON API:
     id
     date
     time
-    text
+    name
     completed
   }
 ]
@@ -19,6 +19,8 @@ App
 */
 import React, { Component } from 'react';
 
+let taskID = 0;
+
 export default class App extends Component {
   constructor() {
     super();
@@ -27,15 +29,20 @@ export default class App extends Component {
     }
     this.addTask = this.addTask.bind(this);
   }
-  addTask(name, date) {
+  addTask(name, datetime) {
+    console.log(datetime)
     this.setState(prevState => ({
       tasks: [
         ...prevState.tasks,
         {
-          id: 0,
+          id: taskID++,
           name: name,
-          date: date,
-          time: 'a time',
+          date: datetime,
+          time: new Date(datetime).toLocaleTimeString('en-us', {
+            timeZone: 'UTC',
+            hour: 'numeric',
+            minute: 'numeric'
+          }),
           completed: false
         }
       ]
@@ -44,8 +51,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <h2>These are your tasks for {new Date()
-          .toLocaleDateString("en-us", {
+        <h2>Your tasks for {new Date().toLocaleDateString('en-us', {
             weekday: 'long',
             month: 'long',
             day: 'numeric',
@@ -67,18 +73,23 @@ export default class App extends Component {
             type="text"
             placeholder="Name"
           />
+          <br />
           <input
             ref={node => {
-              this.inputDate = node
+              this.inputDatetime = node
             }}
             type="datetime-local"
           />
+          <br />
           <button
             type="button"
             onClick={() => {
-              this.addTask(this.inputName.value, this.inputDate.value);
-              //this.inputName.value='';
-              //this.inputDate.value='';
+              this.addTask(
+                this.inputName.value,
+                this.inputDatetime.value
+              );
+              this.inputName.value='';
+              this.inputDatetime.value='';
               this.inputName.focus();
             }}>
             Add task
@@ -88,16 +99,3 @@ export default class App extends Component {
     );
   }
 };
-
-/*
-this.setState(prevState => [
-  ...prevState,
-  {
-    id: 0,
-    date: date,
-    time: date,
-    name: name,
-    completed: false
-  }
-]);
-*/
