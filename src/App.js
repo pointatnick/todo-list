@@ -23,8 +23,23 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      todos: []
+      tasks: []
     }
+    this.addTask = this.addTask.bind(this);
+  }
+  addTask(name, date) {
+    this.setState(prevState => ({
+      tasks: [
+        ...prevState.tasks,
+        {
+          id: 0,
+          name: name,
+          date: date,
+          time: 'a time',
+          completed: false
+        }
+      ]
+    }))
   }
   render() {
     return (
@@ -38,24 +53,34 @@ export default class App extends Component {
           })}
         </h2>
         <ul>
-          {this.state.todos.map(todo =>
-            <li key={todo.id}>
-              {todo.text} - {todo.time}
+          {this.state.tasks.map(task =>
+            <li key={task.id}>
+              {task.name} - {task.time}
             </li>
           )}
         </ul>
         <div>
           <input
             ref={node => {
-              this.input = node
+              this.inputName = node
             }}
-            type="text"/>
+            type="text"
+            placeholder="Name"
+          />
+          <input
+            ref={node => {
+              this.inputDate = node
+            }}
+            type="datetime-local"
+          />
           <button
             type="button"
             onClick={() => {
-              this.input.value = '';
-            }}
-          >
+              this.addTask(this.inputName.value, this.inputDate.value);
+              //this.inputName.value='';
+              //this.inputDate.value='';
+              this.inputName.focus();
+            }}>
             Add task
           </button>
         </div>
@@ -63,3 +88,16 @@ export default class App extends Component {
     );
   }
 };
+
+/*
+this.setState(prevState => [
+  ...prevState,
+  {
+    id: 0,
+    date: date,
+    time: date,
+    name: name,
+    completed: false
+  }
+]);
+*/
