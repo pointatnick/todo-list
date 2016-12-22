@@ -18,6 +18,7 @@ App
 
 */
 import React, { Component } from 'react';
+import './App.css';
 
 let taskID = 0;
 
@@ -50,22 +51,25 @@ export default class App extends Component {
   }
   render() {
     return (
-      <div>
-        <h2>Your tasks for {new Date().toLocaleDateString('en-us', {
-            weekday: 'long',
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric'
-          })}
-        </h2>
-        <ul>
-          {this.state.tasks.map(task =>
-            <li key={task.id}>
-              {task.name} - {task.time}
-            </li>
-          )}
-        </ul>
-        <div>
+      <div className="app">
+        <div className="todo-list">
+          <h2>{new Date().toLocaleDateString('en-us', {
+              weekday: 'long',
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric'
+            })}
+          </h2>
+          <ul>
+            {this.state.tasks.map(task =>
+              <li key={task.id}>
+                {task.name} - {task.time}
+              </li>
+            )}
+          </ul>
+        </div>
+        <div className="add-new-task">
+          <h4>Add New Task</h4>
           <input
             ref={node => {
               this.inputName = node
