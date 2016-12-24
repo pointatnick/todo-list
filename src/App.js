@@ -1,24 +1,5 @@
-/*
-mock JSON API:
-
-[
-  {
-    id
-    date
-    time
-    name
-    completed
-  }
-]
-
-App
-  Tasks
-    TaskRow
-  AddTask
-
-*/
 import React, { Component } from 'react';
-import './App.css';
+//import './App.css';
 
 let taskID = 0;
 
@@ -30,20 +11,15 @@ export default class App extends Component {
     }
     this.addTask = this.addTask.bind(this);
   }
-  addTask(name, datetime) {
-    console.log(datetime)
+  addTask(name, time, ampm) {
+    console.log(time)
     this.setState(prevState => ({
       tasks: [
         ...prevState.tasks,
         {
           id: taskID++,
           name: name,
-          date: datetime,
-          time: new Date(datetime).toLocaleTimeString('en-us', {
-            timeZone: 'UTC',
-            hour: 'numeric',
-            minute: 'numeric'
-          }),
+          time: time + ' ' + ampm,
           completed: false
         }
       ]
@@ -72,29 +48,39 @@ export default class App extends Component {
           <h4>Add New Task</h4>
           <input
             ref={node => {
-              this.inputName = node
+              this.name = node
             }}
             type="text"
             placeholder="Name"
           />
-          <br />
-          <input
-            ref={node => {
-              this.inputDatetime = node
-            }}
-            type="datetime-local"
-          />
-          <br />
+          <select ref={node => this.time = node}>
+            <option>1:00</option>
+            <option>2:00</option>
+            <option>3:00</option>
+            <option>4:00</option>
+            <option>5:00</option>
+            <option>6:00</option>
+            <option>7:00</option>
+            <option>8:00</option>
+            <option>9:00</option>
+            <option>10:00</option>
+            <option>11:00</option>
+            <option>12:00</option>
+          </select>
+          <select ref={node => this.ampm = node}>
+            <option>AM</option>
+            <option>PM</option>
+          </select>
           <button
             type="button"
             onClick={() => {
               this.addTask(
-                this.inputName.value,
-                this.inputDatetime.value
+                this.name.value,
+                this.time.value,
+                this.ampm.value
               );
-              this.inputName.value='';
-              this.inputDatetime.value='';
-              this.inputName.focus();
+              this.name.value='';
+              this.name.focus();
             }}>
             Add task
           </button>

@@ -17,19 +17,18 @@ div {
   justify-content: center;
 }
 
-/* Pattern styles */
 .container {
   display: flex;
 }
 
 .todo-list {
-  background-color: #ff9e2c;
+  background-color: #f44336;
   flex: 1;
   padding: 1rem;
 }
 
 .add-new-task {
-  background-color: #b6701e;
+  background-color: #e57373;
   flex: 1;
   padding: 1rem;
 }
