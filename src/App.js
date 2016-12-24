@@ -9,10 +9,8 @@ export default class App extends Component {
     this.state = {
       tasks: []
     }
-    this.addTask = this.addTask.bind(this);
   }
   addTask(name, time, ampm) {
-    console.log(time)
     this.setState(prevState => ({
       tasks: [
         ...prevState.tasks,
@@ -23,6 +21,21 @@ export default class App extends Component {
           completed: false
         }
       ]
+    }))
+  }
+  toggleTask(id) {
+    console.log('Toggling task', id,'...')
+    this.setState(prevState => ({
+      tasks: prevState.tasks.map(task => {
+        if (task.id === id) {
+          return {
+            ...task,
+            completed: !task.completed
+          }
+        } else {
+          return task
+        }
+      })
     }))
   }
   render() {
@@ -38,7 +51,14 @@ export default class App extends Component {
           </h2>
           <ul>
             {this.state.tasks.map(task =>
-              <li key={task.id}>
+              <li
+                key={task.id}
+                style={{
+                  textDecoration:
+                    task.completed ? 'line-through' : 'none'
+                }}
+                onClick={() => this.toggleTask(task.id)}
+                >
                 {task.name} - {task.time}
               </li>
             )}
